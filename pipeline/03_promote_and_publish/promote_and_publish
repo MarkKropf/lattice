@@ -73,6 +73,8 @@ bump_unstable_lattice() {
         git pull origin master
         git checkout master
 
+        deliver_stories_message=$(extract_deliver_stories_message)
+
         # Most of the time this will be a ff-only merge.
         # It won't be if there is a change to master, eg a README change or a PR merged directly into master
         # that hasn't made it back to develop yet.
@@ -183,7 +185,7 @@ push_unstable_lattice() {
 }
 
 stage_pipeline_artifact() {
-    local pipeline_version_artifact_path="/workspace/pipeline_published_lattice_version"
+    local -r pipeline_version_artifact_path="/workspace/pipeline_published_lattice_version"
     pushd $LATTICE_SRC_PATH > /dev/null
         git checkout master
         cp -v Version $pipeline_version_artifact_path
@@ -194,7 +196,7 @@ source $(dirname $0)/../helpers/build_ltc_helpers
 
 lattice_tar_path=${1:-/workspace/lattice.tgz}
 
-lattice_artifacts_staging_folder="/workspace/lattice-unstable"
+declare -r lattice_artifacts_staging_folder="/workspace/lattice-unstable"
 rm -rfv $lattice_artifacts_staging_folder
 mkdir -pv $lattice_artifacts_staging_folder
 

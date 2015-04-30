@@ -161,8 +161,9 @@ bump_lattice_version() {
     git_describe_lattice
 
     pushd $LATTICE_SRC_PATH > /dev/null
+        local previous_lattice_version
         previous_lattice_version=$(cat Version)
-        new_lattice_version="$lattice_version"
+        local new_lattice_version="$lattice_version"
 
         echo "$new_lattice_version" > Version
         echo "Updating Version file: $previous_lattice_version -> $new_lattice_version"
@@ -172,7 +173,6 @@ bump_lattice_version() {
 
         git add Version
         git add DIEGO_VERSION
-        deliver_stories_message=$(extract_deliver_stories_message)
 
         git commit -m "Bump Version: $previous_lattice_version -> $new_lattice_version
 
